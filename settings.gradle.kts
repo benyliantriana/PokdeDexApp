@@ -1,12 +1,6 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -18,6 +12,10 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
 rootProject.name = "PokeDexApp"
+
 include(":app")
+includeBuild("build-src")
+
+// this line is required, somehow the convention has some blocking process, even no test classes there
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-src:testClasses"))
