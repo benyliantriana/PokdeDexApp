@@ -49,6 +49,9 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+
+    implementation(project(":libs:lib_ui"))
+    implementation(project(":features:feature_pokemon"))
 }
 
 kapt {

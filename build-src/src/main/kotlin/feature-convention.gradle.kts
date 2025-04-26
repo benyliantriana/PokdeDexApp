@@ -1,6 +1,6 @@
-package id.suspendfun
+package id.suspendfun.pokedexapp
 
-import id.suspendfun.common.libs
+import id.suspendfun.pokedexapp.common.libs
 
 plugins {
     `android-library`
@@ -15,7 +15,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -75,6 +75,9 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material3)
+
+    implementation(project(":libs:lib_base"))
+    implementation(project(":libs:lib_ui"))
 
     testImplementation(libs.androidx.ui.test.manifest)
     testImplementation(libs.androidx.ui.test.junit)

@@ -19,6 +19,9 @@ protobuf-kotlin-lite = "3.25.2"
 protobuff = "0.9.4"
 retrofit = "2.11.0"
 robolectric = "4.14"
+espresso-core = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -49,6 +52,9 @@ robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

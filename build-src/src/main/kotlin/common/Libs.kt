@@ -1,4 +1,4 @@
-package id.suspendfun.common
+package id.suspendfun.pokedexapp.common
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
