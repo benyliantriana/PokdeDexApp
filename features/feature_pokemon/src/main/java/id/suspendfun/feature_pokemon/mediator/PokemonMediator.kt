@@ -18,6 +18,7 @@ class PokemonMediator(
 ) : RemoteMediator<Int, PokemonEntity>() {
 
     private val cacheTimeout = 5 * 60 * 1000L // 5 minutes
+    private val remoteEntityId = "pokemon"
 
     override suspend fun load(
         loadType: LoadType,
@@ -27,7 +28,7 @@ class PokemonMediator(
         val remoteDao = database.remoteDao()
 
         if (loadType == LoadType.REFRESH) {
-            val remoteKeys = remoteDao.getRemoteEntity("pokemon")
+            val remoteKeys = remoteDao.getRemoteEntity(remoteEntityId)
             val currentTime = System.currentTimeMillis()
             if (remoteKeys != null) {
                 val isCacheValid = (currentTime - remoteKeys.lastUpdated) < cacheTimeout
@@ -62,7 +63,7 @@ class PokemonMediator(
 
                             remoteDao.insertOrReplace(
                                 RemoteEntity(
-                                    id = "pokemon",
+                                    id = remoteEntityId,
                                     lastUpdated = System.currentTimeMillis()
                                 )
                             )

@@ -14,14 +14,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class PokemonDataSourceImpl @Inject constructor(
     private val pokemonApi: PokemonApi,
     private val pokemonDatabase: PokemonDatabase,
 ) : PokemonDataSource {
-    @OptIn(ExperimentalPagingApi::class)
+    private val pageSize = 20
+
     override fun getPokemonList(): Flow<PagingData<PokemonData>> =
         Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = pageSize),
             remoteMediator = PokemonMediator(pokemonApi, pokemonDatabase),
             pagingSourceFactory = { pokemonDatabase.pokemonDao().getAllPokemon() }
         ).flow
