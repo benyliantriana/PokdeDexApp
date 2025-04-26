@@ -79,6 +79,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material3)
     implementation(libs.retrofit)
+    implementation(libs.androidx.paging.common.android)
+    implementation(libs.androidx.paging.compose)
 
     implementation(project(":libs:lib_base"))
     implementation(project(":libs:lib_ui"))
