@@ -1,8 +1,9 @@
 package id.suspendfun.feature_pokemon.datasource
 
-import id.suspendfun.feature_pokemon.data.response.PokemonResponse
-import id.suspendfun.lib_network.response.BaseResponse
+import androidx.paging.PagingData
+import id.suspendfun.feature_pokemon.data.ui.PokemonData
+import kotlinx.coroutines.flow.Flow
 
 interface PokemonDataSource {
-    suspend fun getPokemonList(offset: Long): BaseResponse<PokemonResponse>
+    fun getPokemonList(): Flow<PagingData<PokemonData>>
 }

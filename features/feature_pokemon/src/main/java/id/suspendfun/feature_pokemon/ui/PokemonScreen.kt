@@ -1,89 +1,96 @@
 package id.suspendfun.feature_pokemon.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import id.suspendfun.feature_pokemon.data.ui.PokemonData
-import id.suspendfun.feature_pokemon.util.PokemonBaseImageUrl
 import id.suspendfun.lib_ui.R as RUi
 
 @Composable
 fun PokemonScreen(
     viewModel: PokemonViewModel = hiltViewModel<PokemonViewModel>(),
 ) {
-    val pokemonUiState =
-        viewModel.pokemonUiState.collectAsStateWithLifecycle(PokemonUiState.Loading).value
-    val gridState = rememberLazyGridState()
-    val reachedBottom: Boolean by remember {
-        derivedStateOf {
-            val lastVisibleItem = gridState.layoutInfo.visibleItemsInfo.lastOrNull()
-            lastVisibleItem?.index != 0 && lastVisibleItem?.index == gridState.layoutInfo.totalItemsCount - 1
-        }
-    }
-
-    LaunchedEffect(reachedBottom) {
-        if (reachedBottom) viewModel.getPokemonList()
-    }
+    val pokemonUiState = viewModel.pokemonPagingFlow.collectAsLazyPagingItems()
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.statusBars)
     ) { innerPadding ->
-        when (pokemonUiState) {
-            is PokemonUiState.Success -> {
+        when (val state = pokemonUiState.loadState.refresh) {
+            is LoadState.Loading -> {
+                Text(stringResource(RUi.string.loading))
+            }
+
+            is LoadState.Error -> {
+                Text(state.error.message.toString())
+            }
+
+            is LoadState.NotLoading -> {
                 LazyVerticalGrid(
-                    state = gridState,
                     columns = GridCells.Fixed(2),
-                    modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
+                    modifier = Modifier.padding(
+                        top = innerPadding.calculateTopPadding(),
+                        start = 8.dp,
+                        end = 8.dp
+                    ),
                 ) {
-                    itemsIndexed(pokemonUiState.pokemonData) { _, pokemon ->
-                        PokemonItemView(pokemon)
+                    items(pokemonUiState.itemCount) { index ->
+                        pokemonUiState[index]?.let {
+                            PokemonItemView(it)
+                        }
                     }
                 }
             }
-
-            is PokemonUiState.Failed -> Text(pokemonUiState.message)
-            PokemonUiState.Loading -> Text(stringResource(RUi.string.loading))
         }
     }
 }
 
 @Composable
 fun PokemonItemView(pokemon: PokemonData) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+    Card(
+        modifier = Modifier.padding(4.dp)
     ) {
-        AsyncImage(
-            modifier = Modifier.fillMaxWidth(),
-            model = "$PokemonBaseImageUrl${pokemon.name}.jpg",
-            contentDescription = null,
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(pokemon.name)
+        Column(
+            modifier = Modifier
+                .background(color = colorResource(RUi.color.white))
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                modifier = Modifier.fillMaxWidth(),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(pokemon.imageUrl)
+                    .size(250)
+                    .build(),
+                contentDescription = null,
+            )
+            Text(
+                modifier = Modifier.padding(vertical = 4.dp),
+                text = pokemon.name
+            )
+        }
     }
 }

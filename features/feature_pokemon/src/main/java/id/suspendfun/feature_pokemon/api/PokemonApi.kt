@@ -1,6 +1,6 @@
 package id.suspendfun.feature_pokemon.api
 
-import id.suspendfun.feature_pokemon.data.response.PokemonResponse
+import id.suspendfun.feature_pokemon.data.response.PokemonApiResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -10,5 +10,5 @@ interface PokemonApi {
     fun getPokemonList(
         @Query("limit") limit: Int = 20,
         @Query("offset") offset: Long = 0,
-    ): Call<PokemonResponse>
+    ): Call<PokemonApiResponse>
 }
