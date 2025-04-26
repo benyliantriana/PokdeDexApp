@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "id.suspendfun.feature_pokemon"
 }
+
+dependencies {
+    implementation(project(":libs:lib_network"))
+}

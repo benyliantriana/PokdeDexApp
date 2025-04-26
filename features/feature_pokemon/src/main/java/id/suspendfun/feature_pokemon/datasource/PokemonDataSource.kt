@@ -1,4 +1,8 @@
 package id.suspendfun.feature_pokemon.datasource
 
-class PokemonDataSource {
+import id.suspendfun.feature_pokemon.data.response.PokemonResponse
+import id.suspendfun.lib_network.response.BaseResponse
+
+interface PokemonDataSource {
+    suspend fun getPokemonList(offset: Long): BaseResponse<PokemonResponse>
 }

@@ -66,15 +66,19 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.lifecycle.compose)
+
     implementation(libs.coil)
     implementation(libs.coil.network)
+
     implementation(libs.compose.ui)
 
     implementation(libs.hilt)
+    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material3)
+    implementation(libs.retrofit)
 
     implementation(project(":libs:lib_base"))
     implementation(project(":libs:lib_ui"))
