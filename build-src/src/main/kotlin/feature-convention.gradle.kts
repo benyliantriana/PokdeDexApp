@@ -79,7 +79,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material3)
     implementation(libs.retrofit)
-    implementation(libs.androidx.paging.common.android)
     implementation(libs.androidx.paging.compose)
 
     implementation(project(":libs:lib_base"))
@@ -89,6 +88,9 @@ dependencies {
     testImplementation(libs.androidx.ui.test.junit)
     testImplementation(libs.junit4)
     testImplementation(libs.robolectric)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutine.test)
+    testImplementation(libs.androidx.paging.common)
 }
 
 kapt {

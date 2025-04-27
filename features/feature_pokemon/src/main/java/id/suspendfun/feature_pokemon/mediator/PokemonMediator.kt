@@ -10,6 +10,7 @@ import id.suspendfun.lib_room.db.PokemonDatabase
 import id.suspendfun.lib_room.entity.PokemonEntity
 import id.suspendfun.lib_room.entity.RemoteEntity
 import retrofit2.awaitResponse
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class PokemonMediator(
@@ -17,7 +18,7 @@ class PokemonMediator(
     private val database: PokemonDatabase
 ) : RemoteMediator<Int, PokemonEntity>() {
 
-    private val cacheTimeout = 5 * 60 * 1000L // 5 minutes
+    private val cacheTimeout = TimeUnit.MINUTES.toMillis(5)
     private val remoteEntityId = "pokemon"
 
     override suspend fun load(
