@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -45,7 +46,16 @@ fun PokemonScreen(
             }
 
             is LoadState.Error -> {
-                Text(state.error.message.toString())
+                Column {
+                    Text(state.error.message.toString())
+                    Button(
+                        onClick = {
+                            pokemonUiState.refresh()
+                        }
+                    ) {
+                        Text(stringResource(RUi.string.retry))
+                    }
+                }
             }
 
             is LoadState.NotLoading -> {

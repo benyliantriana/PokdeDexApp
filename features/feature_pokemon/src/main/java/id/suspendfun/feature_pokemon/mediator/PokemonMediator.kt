@@ -74,11 +74,15 @@ class PokemonMediator(
                 }
                 MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             } else {
-                MediatorResult.Error(Exception())
+                MediatorResult.Error(Throwable(message = response.message()))
             }
 
         } catch (e: Exception) {
-            MediatorResult.Error(e)
+            if (e.message.isNullOrBlank()) {
+                MediatorResult.Error(Throwable(message = "Failed to fetching data"))
+            } else {
+                MediatorResult.Error(e)
+            }
         }
     }
 }
